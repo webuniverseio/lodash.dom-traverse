@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOM Traversal Sample</title>
+	<style>
+		.cell {
+			height: 50px;
+			width: 50px;
+			border: 1px solid #000000;
+		}
+	</style>
+</head>
+<body>
+<script src="lodash.compat.min.js"></script>
+
+<table class="board">
+	<tr id="row1" class="row">
+		<td id="cell11" class="cell"></td>
+		<td id="cell12" class="cell"></td>
+		<td id="cell13" class="cell"></td>
+	</tr>
+	<tr id="row2" class="row">
+		<td id="cell21" class="cell"></td>
+		<td style="background: blue; color: chocolate; font: 2em bold;" id="cell22" class="cell">bla</td>
+		<td id="cell23" class="cell"></td>
+	</tr>
+	<tr id="row3" class="row">
+		<td id="cell31" class="cell"></td>
+		<td id="cell32" class="cell"></td>
+		<td id="cell33" class="cell"></td>
+	</tr>
+</table>
+<script>
+	(function () {
+		function evenOdd(odd, el) {
+			return (_.indexOf(el.parentNode.children, el) - (odd ? 1 : 0)) % 2
+		}
+		function simpleEvenOdd(odd, el, i) {
+			return (i - odd) % 2;
+		}
+		function rulesToObj(cssText) {
+			if (!_.trim(cssText)) {
+				return {};
+			}
+			return _.chain(cssText.split(';'))
+				.map(function (rules) {
+					rules = rules.split(':');
+					return {
+						prop: _.trim(rules[0]),
+						value: _.trim(rules[1])
+					};
+				})
+				.indexBy('prop')
+				.value();
+		}
+		function rulesFromObj(obj) {
+			return _.chain(obj)
+				.mapValues('value')
+				.pairs()
+				.invoke('join', ':')
+				.value()
+				.join(';');
+		}
+
+		function $(selector, context) {
+			context = context || document;
+			return _.toArray(context.querySelectorAll(selector));
+		}
+		$.even = _.partial(evenOdd, 0);
+		$.odd = _.partial(evenOdd, 1);
+		$.simpleEven = _.partial(simpleEvenOdd, 0);
+		$.simpleOdd = _.partial(simpleEvenOdd, 1);
+
+		_.mixin({
+			$: $,
+			$find: function find(base, selector) {
+				var results = [];
+				base = [].concat(base);
+				if (base.length > 1) {
+					results = _.chain(base).map(function (element) {
+						return _.$(selector, element);
+					}).flatten().value();
+				}
+				return results.length && results || _.$(selector, base[0]);
+			},
+			css: function (els, rules) {
+				els = [].concat(els);
+				_.each(els, function (el) {
+					el.style.cssText = rulesFromObj(
+						_.merge(
+							rulesToObj(el.style.cssText.replace(/;$/, '')),
+							rulesToObj(rules.replace(/;$/, ''))
+						)
+					);
+				});
+			},
+			trim: function (str) {
+				return str.replace(/^\s+|\s+$/, '');
+			}
+		});
+	})();
+
+	_.chain('table').$().$find('tr').$find('td').filter(_.$.simpleOdd).css('background: #000; color: blue;').value();
+</script>
+</body>
+</html>
