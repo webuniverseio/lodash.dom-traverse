@@ -16,9 +16,9 @@
 
 <table class="board">
 	<tr id="row1" class="row">
-		<td id="cell11" class="cell"></td>
+		<td id="cell11" class="cell">1</td>
 		<td id="cell12" class="cell"></td>
-		<td id="cell13" class="cell"></td>
+		<td id="cell13" class="cell">3</td>
 	</tr>
 	<tr id="row2" class="row">
 		<td id="cell21" class="cell"></td>
@@ -237,6 +237,59 @@
 			nextAll: _.partial(nextPrevAll, 'next'),
 			prevAll: _.partial(nextPrevAll, 'prev'),
 			/**
+			 * set or get text for elements
+			 * @param {HTMLElement|Array} els
+			 * @param {String} str
+			 * @returns {Array} strings or elements
+			 */
+			text: function text(els, str) {
+				els = [].concat(els);
+				var getText = 'textContent' in els[0] ? 'textContent' : 'innerText';
+				return _.chain(els).map(function (el) {
+					if (str) {
+						el[getText] = str;
+						return el;
+					} else {
+						return el[getText];
+					}
+				}).filter(_.identity).value();
+			},
+			/**
+			 * check if element(s) match the selector
+			 * @param {HTMLElement|Array} els
+			 * @param {String} selector
+			 * @returns {Boolean}
+			 */
+			is: function (els, selector) {
+				els = [].concat(els);
+				var f = els[0],
+					matches = f.matches || f.matchesSfector || f.msMatchesSfector || f.mozMatchesSfector || f.webkitMatchesSelector || f.oMatchesSelector;
+
+				return _.every(els, function (el) {
+					if (matches) {
+						return matches.call(el, selector);
+					} else {
+						return ~_.chain(selector).$(el.parentNode).indexOf(el).value();
+					}
+				});
+			},
+			/**
+			 * get closest parent with given selector
+			 * @param {HTMLElement|Array} els
+			 * @param {String} selector
+			 * @returns {Array}
+			 */
+			closest: function (els, selector) {
+				els = [].concat(els);
+				return _.chain(els).map(function (el) {
+					var parent;
+					while ((parent = el.parentNode) && !_.is(parent, selector)) {
+						el = parent;
+					}
+					return parent;
+				}).filter(_.identity).value();
+			},
+			/**
 			 * set or get css value
 			 * @param {HTMLElement|Array} els
 			 * @param {Object|String} rules
@@ -271,7 +324,7 @@
 	})();
 
 	_.chain('table').$().$find('tr').$find('td').filter(_.$.simpleOdd).css({background: '#000', color: 'blue'}).value();
-	console.log(_.chain('#row3').$().prevAll().value());
+	console.log(_.chain('#cell22').$().closest('html').value());
 </script>
 </body>
 </html>
