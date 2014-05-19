@@ -41,3 +41,7 @@ easy to chain
 ```javascript
 _.$('table td').filter(_.$.simpleOdd).css({'background-color': 'rgb(0, 0, 0)'}).text()
 ```
+==============
+### Browser support
+* IE8+
+* Modern browsers
