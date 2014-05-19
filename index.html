@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html debug="true">
 <head>
 	<title>DOM Traversal Sample</title>
 	<style>
+		html, body {
+			min-height: 100%;
+		}
+		body {
+			padding-top: 100px;
+			font-family: Arial, sans-serif;
+		}
+		.container {
+			text-align: center;
+		}
+		.board {
+			margin: auto;
+		}
 		.cell {
 			height: 50px;
 			width: 50px;
@@ -11,320 +24,79 @@
 	</style>
 </head>
 <body>
-<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
-<script src="lodash.compat.min.js"></script>
-
-<table class="board">
-	<tr id="row1" class="row">
-		<td id="cell11" class="cell">1</td>
-		<td id="cell12" class="cell"></td>
-		<td id="cell13" class="cell">3</td>
-	</tr>
-	<tr id="row2" class="row">
-		<td id="cell21" class="cell"></td>
-		<td style="background: blue; color: chocolate; font: 2em bold;" id="cell22" class="cell">bla</td>
-		<td id="cell23" class="cell"></td>
-	</tr>
-	<tr id="row3" class="row">
-		<td id="cell31" class="cell"></td>
-		<td id="cell32" class="cell"></td>
-		<td id="cell33" class="cell"></td>
-	</tr>
-</table>
+<div class="container">
+	<h1>Lodash dom traverse (<a href="explain.html">docs</a>)</h1>
+	<table class="board">
+		<tr id="row1" class="row">
+			<td id="cell11" class="cell"></td>
+			<td id="cell12" class="cell"></td>
+			<td id="cell13" class="cell"></td>
+		</tr>
+		<tr id="row2" class="row">
+			<td id="cell21" class="cell"></td>
+			<td style="background: blue; color: chocolate; font: 22px bold;" id="cell22" class="cell">bar</td>
+			<td id="cell23" class="cell"></td>
+		</tr>
+		<tr id="row3" class="row">
+			<td id="cell31" class="cell"></td>
+			<td id="cell32" class="cell"></td>
+			<td id="cell33" class="cell"></td>
+		</tr>
+	</table>
+	<p>See tests below</p>
+</div>
+<script type="text/javascript" src="//getfirebug.com/firebug-lite.js"></script>
+<script src="lodash.compat.js"></script>
+<script src="lodash.dom-traverse.js"></script>
 <script>
-	(function () {
-		/**
-		 * check if element is even or odd, based on its location in a dom, related to its parent
-		 * @param {Number} order 0 or 1 - even or odd
-		 * @param {HTMLElement} el
-		 * @returns {Number} either 0 or something else not falsy
-		 */
-		function evenOdd(order, el) {
-			return (_.indexOf(el.parentNode.children, el) - (order ? 1 : 0)) % 2
-		}
-
-		/**
-		 * check if element is even or odd, based on its order
-		 * @param {Number} order 0 or 1 - even or odd
-		 * @param {HTMLElement} el
-		 * @param {Number} i
-		 * @returns {Number} either 0 or something else not falsy
-		 */
-		function simpleEvenOdd(order, el, i) {
-			return (i - order) % 2;
-		}
-
-		/**
-		 * detects support for next/previousElementSibling and returns function to find next/previous siblings
-		 * @param {String} direction next or previous
-		 * @returns {Function}
-		 */
-		function nextPrev(direction) {
-			if (document.body.previousElementSibling) {
-				return function (els) {
-					els = [].concat(els);
-					return _.chain(els).map(function (el) {
-						return el[direction + 'ElementSibling'];
-					}).filter(_.identity).value(); //filter out null elements
-				}
-			}
-			return function (els) {
-				els = [].concat(els);
-				return _.chain(els).map(function (el) {
-					do {
-						el = el[direction + 'Sibling'];
-					} while (el && el.nodeType !== 1);
-					return el;
-				}).filter(_.identity).value(); //filter out null elements
-			}
-		}
-		function nextPrevAll(direction, els) {
-			els = [].concat(els);
-			return _.chain(els).map(function (el) {
-				var results = [],
-				    result;
-				while ((result = _[direction](el)) && (el = result[0])) {
-					results.push(result);
-				}
-				return results;
-			}).flatten().value();
-		}
-
-		/**
-		 * get style value for given property of the given name (found on github)
-		 * @param {HTMLElement} el
-		 * @param {String} styleProp
-		 * @returns {String}
-		 */
-		function getStyle(el, styleProp) {
-			var value, defaultView = el.ownerDocument.defaultView;
-			// W3C standard way:
-			if (defaultView && defaultView.getComputedStyle) {
-				// sanitize property name to css notation (hypen separated words eg. font-Size)
-				styleProp = styleProp.replace(/([A-Z])/g, "-$1").toLowerCase();
-				return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
-			} else if (el.currentStyle) { // IE
-				// sanitize property name to camelCase
-				styleProp = styleProp.replace(/\-(\w)/g, function(str, letter) {
-					return letter.toUpperCase();
-				});
-				value = el.currentStyle[styleProp];
-				// convert other units to pixels on IE
-				if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
-					return (function(value) {
-						var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
-						el.runtimeStyle.left = el.currentStyle.left;
-						el.style.left = value || 0;
-						value = el.style.pixelLeft + "px";
-						el.style.left = oldLeft;
-						el.runtimeStyle.left = oldRsLeft;
-						return value;
-					})(value);
-				}
-				return value;
-			}
-		}
-
-		/**
-		 * convert css string into object
-		 * @param {String} cssText
-		 * @returns {Object}
-		 */
-		function rulesToObj(cssText) {
-			if (!_.trim(cssText)) {
-				return {};
-			}
-			return _.chain(cssText.split(';'))
-				.map(function (rules) {
-					rules = rules.split(':');
-					return {
-						prop: _.trim(rules[0]),
-						value: _.trim(rules[1])
-					};
-				})
-				.indexBy('prop')
-				.mapValues('value')
-				.value();
-		}
-
-		/**
-		 * convert object into css string
-		 * @param {Object} obj
-		 * @returns {String}
-		 */
-		function rulesFromObj(obj) {
-			return _.chain(obj)
-				.pairs()
-				.invoke('join', ':')
-				.value()
-				.join(';');
-		}
-
-		/**
-		 * get elements by selector in a given context
-		 * @param {String} selector
-		 * @param {HTMLElement} context
-		 * @returns {Array}
-		 */
-		function $(selector, context) {
-			context = context || document;
-			return _.toArray(context.querySelectorAll(selector));
-		}
-
-		/**
-		 * helper function to filter even elements from collection based on elements location within its parent node
-		 * @type {Function}
-		 */
-		$.even = _.partial(evenOdd, 0);
-		/**
-		 * helper function to filter odd elements from collection based on elements location within its parent node
-		 * @type {Function}
-		 */
-		$.odd = _.partial(evenOdd, 1);
-		/**
-		 * helper function to filter even elements from collection based on collection's order
-		 * @type {Function}
-		 */
-		$.simpleEven = _.partial(simpleEvenOdd, 0);
-		/**
-		 * helper function to filter odd elements from collection based on collection's order
-		 * @type {Function}
-		 */
-		$.simpleOdd = _.partial(simpleEvenOdd, 1);
-
-		_.mixin({
-			/**
-			 * @type {Function}
-			 */
-			$: $,
-			/**
-			 * find elements within base element by selector
-			 * @param {HTMLElement|Array} base
-			 * @param {String} selector
-			 * @returns {Array}
-			 */
-			$find: function find(base, selector) {
-				var results = [];
-				base = [].concat(base);
-				if (base.length > 1) {
-					results = _.chain(base).map(function (element) {
-						return _.$(selector, element);
-					}).flatten().value();
-				}
-				return results.length ? results : _.$(selector, base[0]);
-			},
-			/**
-			 * get siblings for given elements
-			 * @param {HTMLElement|Array} els
-			 * @returns {Array}
-			 */
-			siblings: function (els) {
-				els = [].concat(els);
-				return _.chain(els).map(function (el) {
-					return _.reject(el.parentNode.children, function (child) {
-						return child === el;
-					});
-				}).flatten().uniq().value();
-			},
-			/**
-			 * @type {Function}
-			 */
-			next: nextPrev('next'),
-			/**
-			 * @type {Function}
-			 */
-			prev: nextPrev('previous'),
-			nextAll: _.partial(nextPrevAll, 'next'),
-			prevAll: _.partial(nextPrevAll, 'prev'),
-			/**
-			 * set or get text for elements
-			 * @param {HTMLElement|Array} els
-			 * @param {String} str
-			 * @returns {Array} strings or elements
-			 */
-			text: function text(els, str) {
-				els = [].concat(els);
-				var getText = 'textContent' in els[0] ? 'textContent' : 'innerText';
-				return _.chain(els).map(function (el) {
-					if (str) {
-						el[getText] = str;
-						return el;
-					} else {
-						return el[getText];
-					}
-				}).filter(_.identity).value();
-			},
-			/**
-			 * check if element(s) match the selector
-			 * @param {HTMLElement|Array} els
-			 * @param {String} selector
-			 * @returns {Boolean}
-			 */
-			is: function (els, selector) {
-				els = [].concat(els);
-				var f = els[0],
-					matches = f.matches || f.matchesSfector || f.msMatchesSfector || f.mozMatchesSfector || f.webkitMatchesSelector || f.oMatchesSelector;
-
-				return _.every(els, function (el) {
-					if (matches) {
-						return matches.call(el, selector);
-					} else {
-						return ~_.chain(selector).$(el.parentNode).indexOf(el).value();
-					}
-				});
-			},
-			/**
-			 * get closest parent with given selector
-			 * @param {HTMLElement|Array} els
-			 * @param {String} selector
-			 * @returns {Array}
-			 */
-			closest: function (els, selector) {
-				els = [].concat(els);
-				return _.chain(els).map(function (el) {
-					var parent;
-					while ((parent = el.parentNode) && !_.is(parent, selector)) {
-						el = parent;
-					}
-					return parent;
-				}).filter(_.identity).value();
-			},
-			/**
-			 * set or get css value
-			 * @param {HTMLElement|Array} els
-			 * @param {Object|String} rules
-			 * @returns {Array|String}
-			 */
-			css: function (els, rules) {
-				els = [].concat(els);
-
-				if (_.isString(rules)) {
-					return getStyle(els[0], rules);
-				}
-				_.each(els, function (el) {
-					el.style.cssText = rulesFromObj(
-						_.merge(
-							rulesToObj(el.style.cssText.replace(/;$/, '')),
-							rules
-						)
-					);
-				});
-
-				return els;
-			},
-			/**
-			 * cross-browser string trim
-			 * @param {String} str
-			 * @returns {String}
-			 */
-			trim: function (str) {
-				return str.replace(/^\s+|\s+$/, '');
-			}
-		});
-	})();
-
-	_.chain('table').$().$find('tr').$find('td').filter(_.$.simpleOdd).css({background: '#000', color: 'blue'}).value();
-	console.log(_.chain('#cell22').$().closest('html').value());
+	console.log(
+		"_.$('table')[0] === document.querySelector('table')                                                                                    --->   ",
+		_.$('table')[0] === document.querySelector('table')
+	);
+	console.log(
+		"_.$('#cell22', _.$('table')[0])[0] === document.querySelector('#cell22')                                                               --->   ",
+		_.$('#cell22', _.$('table')[0])[0] === document.querySelector('#cell22')
+	);
+	console.log(
+		"_.$('table tr').find('td').length === 9                                                                                                --->   ",
+		_.$('table tr').find('td').length === 9
+	);
+	console.log(
+		"_.$('table td').filter('[id*=\"cell2\"]').length === 3                                                                                   --->   ",
+		_.$('table td').filter('[id*="cell2"]').length === 3
+	);
+	console.log(
+		"_.$('#cell23').siblings().length === 2                                                                                                 --->   ",
+		_.$('#cell23').siblings().length === 2
+	);
+	console.log(
+		"_.$('#cell23').prev()[0] === document.querySelector('#cell22')                                                                         --->   ",
+		_.$('#cell23').prev()[0] === document.querySelector('#cell22')
+	);
+	console.log(
+		"_.$('#row1').next()[0] === document.querySelector('#row2')                                                                             --->   ",
+		_.$('#row1').next()[0] === document.querySelector('#row2')
+	);
+	console.log(
+		"_.$('#row1').nextAll().length === 2                                                                                                    --->   ",
+		_.$('#row1').nextAll().length === 2
+	);
+	console.log(
+		"_.$('#cell21, #cell23').text('foo') && _.$('#cell21').text()[0] === 'foo'                                                              --->   ",
+		_.$('#cell21, #cell23').text('foo') && _.$('#cell21').text()[0] === 'foo'
+	);
+	console.log(
+		"_.$('table').is('.board') === true                                                                                                     --->   ",
+		_.$('table').is('.board') === true
+	);
+	console.log(
+		"_.$('tbody').closest('table')[0] === document.querySelector('table')                                                                   --->   ",
+		_.$('tbody').closest('table')[0] === document.querySelector('table')
+	);
+	console.log(
+		"!!~_.$('table td').filter(_.$.simpleOdd).css({'background-color': 'rgb(0, 0, 0)'}).css('background-color').search(/rgb\\(0, ?0, ?0\\)/)  --->   ",
+		!!~_.$('table td').filter(_.$.simpleOdd).css({'background-color': 'rgb(0, 0, 0)'}).css('background-color').search(/rgb\(0, ?0, ?0\)/)
+	);
 </script>
 </body>
 </html>
