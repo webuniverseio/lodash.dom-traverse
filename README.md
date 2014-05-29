@@ -1,7 +1,7 @@
 lodash.dom-traverse
 ==============
 
-tiny lodash extension for dom traversing (for those cases where native dom is not so easy to use):
+tiny (1.28kb min, gzip) lodash extension for dom traversing (for those cases where native dom is not so easy to use):
 
 ```javascript
 _.$(selector, context); //get element(s)
