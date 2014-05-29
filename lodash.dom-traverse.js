@@ -300,6 +300,7 @@
                 if (matches) {
                     return matches.call(el, selector);
                 } else {
+                    //jshint bitwise: false
                     return ~_.chain(selector).$(el.parentNode).indexOf(el).value();
                 }
             });
