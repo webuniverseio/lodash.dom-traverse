@@ -1,0 +1,32 @@
+{
+  "name": "lodash.dom-traverse",
+  "main": "lodash.dom-traverse.js",
+  "version": "1.0.0",
+  "authors": [
+    "Sergey Zarouski <serge.zarouski@gmail.com>"
+  ],
+  "description": "Lodash dom traversal",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "lodash",
+    "dom",
+    "traverse"
+  ],
+  "license": "http://unlicense.org",
+  "homepage": "http://szarouski.github.io/lodash.dom-traverse/",
+  "dependencies": {
+    "lodash": "^2.0.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "css",
+    "*.html",
+    "bower.json"
+  ]
+}
