@@ -26,7 +26,6 @@
     "test",
     "tests",
     "css",
-    "*.html",
-    "bower.json"
+    "*.html"
   ]
 }
