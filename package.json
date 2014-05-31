@@ -4,9 +4,6 @@
   "description": "Lodash dom traversal",
   "main": "lodash.dom-traverse.js",
   "dependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-uglify": "^0.4.0",
-    "grunt-explainjs": "^0.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
