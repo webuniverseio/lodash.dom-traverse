@@ -1,7 +1,7 @@
 {
   "name": "lodash.dom-traverse",
   "main": "lodash.dom-traverse.js",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "authors": [
     "Sergey Zarouski <serge.zarouski@gmail.com>"
   ],
