@@ -2,6 +2,25 @@
 (function () {
     'use strict';
     /**
+     * takes function and calls it for every item in context object, then cleans up falsy entries and returns return
+     * @param {Function} fn
+     * @returns {Array}
+     */
+    function mapCompact(fn) {
+        //jshint validthis: true
+        return _.chain(this).map(fn).compact().value();
+    }
+
+    /**
+     * updates subset based on results of fn execution
+     * @param {Function} fn
+     * @returns {Array|$.Init}
+     */
+    function updateOverFn(fn) {
+        //jshint validthis: true
+        return this._update(mapCompact.call(this, fn));
+    }
+    /**
      * check if element is even or odd, based on its location in a dom, related to its parent
      * @param {Number} order 0 or 1 - even or odd
      * @returns {Number} either 0 or something else not falsy
@@ -26,18 +45,24 @@
      * @param {String} direction next or previous
      * @returns {$.Init}
      */
-    function nextPrev(direction) {
-        //jshint validthis: true
-        return this._update(_.chain(this).map(function (el) {
-            if (document.body.previousElementSibling) {
-                return el[direction + 'ElementSibling'];
-            }
-            do { //ie
-                el = el[direction + 'Sibling'];
-            } while (el && el.nodeType !== 1);
-            return el;
-        }).filter(_.identity).value());
-    }
+    var nextPrev = (function nextPrev() {
+        if (document.body.previousElementSibling) {
+            return function (direction) {
+                return updateOverFn.call(this, function (el) {
+                    return el[direction + 'ElementSibling'];
+                });
+            };
+        }
+
+        return function (direction) {
+            return updateOverFn.call(this, function (el) {
+                do { //ie
+                    el = el[direction + 'Sibling'];
+                } while (el && el.nodeType !== 1);
+                return el;
+            });
+        };
+    }());
     /**
      * returns function to find all next/previous siblings
      * @param {String} direction next or previous
@@ -76,34 +101,37 @@
      * @param {String} styleProp
      * @returns {String}
      */
-    function getStyle(el, styleProp) {
-        var value, defaultView = el.ownerDocument.defaultView;
+    var getStyle = (function () {
         // W3C standard way:
-        if (defaultView && defaultView.getComputedStyle) {
-            // sanitize property name to css notation (hyphen separated words eg. font-size)
-            styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
-            return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
-        } else if (el.currentStyle) { // IE
-            // sanitize property name to camelCase
-            styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
-                return letter.toUpperCase();
-            });
-            value = el.currentStyle[styleProp];
-            // convert other units to pixels on IE
-            if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
-                return (function (value) {
-                    var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
-                    el.runtimeStyle.left = el.currentStyle.left;
-                    el.style.left = value || 0;
-                    value = el.style.pixelLeft + 'px';
-                    el.style.left = oldLeft;
-                    el.runtimeStyle.left = oldRsLeft;
-                    return value;
-                })(value);
-            }
-            return value;
+        if (window.getComputedStyle) {
+            return function getStyle(el, styleProp) {
+                // sanitize property name to css notation (hyphen separated words eg. font-size)
+                styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
+                return getComputedStyle(el, null).getPropertyValue(styleProp);
+            };
+        } else { // IE
+            return function (el, styleProp) {
+                // sanitize property name to camelCase
+                styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
+                    return letter.toUpperCase();
+                });
+                var value = el.currentStyle[styleProp];
+                // convert other units to pixels on IE
+                if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
+                    return (function (value) {
+                        var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
+                        el.runtimeStyle.left = el.currentStyle.left;
+                        el.style.left = value || 0;
+                        value = el.style['pixelLeft'] + 'px';
+                        el.style.left = oldLeft;
+                        el.runtimeStyle.left = oldRsLeft;
+                        return value;
+                    })(value);
+                }
+                return value;
+            };
         }
-    }
+    }());
 
     /**
      * convert css string into object
@@ -165,10 +193,8 @@
     /**
      * get elements by selector in a given context
      * @constructor
-     * @name $.Init
      * @param {String|HTMLElement} selector
      * @param {HTMLElement} [context]
-     * @this {$.Init}
      * @memberOf _.$.prototype
      */
     function Init(selector, context) {
@@ -186,7 +212,7 @@
         constructor: $,
         /**
          * @param {*} mixed
-         * @private
+         * @protected
          */
         _push: function (mixed) {
             if (mixed) {
@@ -278,14 +304,14 @@
          */
         text: function text(str) {
             var getText = 'textContent' in this[0] ? 'textContent' : 'innerText';
-            return this._update(_.chain(this).map(function (el) {
+            return updateOverFn.call(this, function (el) {
                 if (str) {
                     el[getText] = str;
                     return el;
                 } else {
                     return el[getText];
                 }
-            }).filter(_.identity).value());
+            });
         },
         /**
          * check if element(s) match the selector
@@ -293,8 +319,9 @@
          * @returns {Boolean}
          */
         is: function is(selector) {
+            //jshint -W052
             var f = this[0],
-                matches = f.matches || f.matchesSfector || f.msMatchesSfector || f.mozMatchesSfector || f.webkitMatchesSelector || f.oMatchesSelector;
+                matches = f.matches || f.matchesSelector || f['msMatchesMatchesSelector'] || f['mozMatchesMatchesSelector'] || f['webkitMatchesSelector'] || f['oMatchesSelector'];
 
             return _.every(this, function (el) {
                 if (matches) {
@@ -312,13 +339,13 @@
          * @returns {$.Init}
          */
         closest: function closest(selector) {
-            return this._update(_.chain(this).map(function (el) {
+            return updateOverFn.call(this, function (el) {
                 var parent;
                 while ((parent = el.parentNode) && !_.$(parent).is(selector)) {
                     el = parent;
                 }
                 return parent;
-            }).filter(_.identity).value());
+            });
         },
         /**
          * set or get css value
@@ -342,6 +369,7 @@
             return this;
         }
     };
+    Init.prototype = $.prototype;
     /**
      * helper function to filter even elements from collection based on elements location within its parent node
      * @memberOf _.$
@@ -370,7 +398,6 @@
      * @type {Function}
      */
     $.simpleOdd = _.partial(simpleEvenOdd, 1);
-    Init.prototype = $.prototype;
 
     _.mixin({
         $: $
