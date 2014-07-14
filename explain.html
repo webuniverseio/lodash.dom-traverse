@@ -2,7 +2,11 @@
 <html>
 
 <head>
+<<<<<<< HEAD
   <title>lodash.dom-traverse.js | ExplainJS by grunt-explainjs</title>
+=======
+  <title> | ExplainJS by grunt-explainjs</title>
+>>>>>>> bf5f3e3... v1.0.4
   <link rel="stylesheet" type="text/css" href="css/unsemantic.css"/>
   <link rel="stylesheet" type="text/css" href="css/explain.css"/>
   <link href='http://fonts.googleapis.com/css?family=Inconsolata|Open+Sans:300italic,300,700' rel='stylesheet' type='text/css'>
@@ -15,9 +19,12 @@
       <div class='grid-60 mobile-grid-100'>
         <a class='logo' href='http://www.explainjs.com'>ExplainJS</a> by <a class='logo' href='https://github.com/collinforrester/grunt-explainjs'>grunt-explainjs</a>
         
+<<<<<<< HEAD
           for
           <a href='lodash.dom-traverse.js' class='src-title'>lodash.dom-traverse.js</a>
         
+=======
+>>>>>>> bf5f3e3... v1.0.4
       </div>
     </div>
   </div>
@@ -33,9 +40,88 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>(function () {
+<<<<<<< HEAD
 
     'use strict';
 </pre>
+=======
+    'use strict';</pre>
+>>>>>>> bf5f3e3... v1.0.4
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
+          <p>check if element is even or odd, based on its location in a dom, related to its parent</p> <p>@param {Number} order 0 or 1 - even or odd</p> <p>@returns {Number} either 0 or something else not falsy</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function evenOdd(order) {
+</pre>
+=======
+          <p>takes function and calls it for every item in context object, then cleans up falsy entries and returns return</p> <p>@param {Function} fn</p> <p>@returns {Array}</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function mapCompact(fn) {</pre>
+>>>>>>> bf5f3e3... v1.0.4
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+          <p>jshint validthis: true</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
+          <pre>        return (_.indexOf(this.parentNode.children, this) - (order ? 1 : 0)) % 2;
+
+    }
+
+
+=======
+          <pre>        return _.chain(this).map(fn).compact().value();
+    }
+>>>>>>> bf5f3e3... v1.0.4
+</pre>
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
+          <p>check if element is even or odd, based on its order</p> <p>@param {Number} order 0 or 1 - even or odd</p> <p>@param {Number} i</p> <p>@returns {Number} either 0 or something else not falsy</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function simpleEvenOdd(order, i) {
+
+        return (i - order) % 2;
+
+    }
+
+
+=======
+          <p>updates subset based on results of fn execution</p> <p>@param {Function} fn</p> <p>@returns {Array|$.Init}</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function updateOverFn(fn) {</pre>
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+          <p>jshint validthis: true</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>        return this._update(mapCompact.call(this, fn));
+    }</pre>
         </div>
       </div>
       <div class='clear'>
@@ -46,8 +132,7 @@
           <p>check if element is even or odd, based on its location in a dom, related to its parent</p> <p>@param {Number} order 0 or 1 - even or odd</p> <p>@returns {Number} either 0 or something else not falsy</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
-          <pre>    function evenOdd(order) {
-</pre>
+          <pre>    function evenOdd(order) {</pre>
         </div>
       </div>
       <div class='clear'>
@@ -59,10 +144,8 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        return (_.indexOf(this.parentNode.children, this) - (order ? 1 : 0)) % 2;
-
     }
-
-
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -71,28 +154,19 @@
     
       <div class='section'>
         <div class='comment grid-40 mobile-grid-100 not-empty'>
-          <p>check if element is even or odd, based on its order</p> <p>@param {Number} order 0 or 1 - even or odd</p> <p>@param {Number} i</p> <p>@returns {Number} either 0 or something else not falsy</p>
-        </div>
-        <div class='code grid-60 mobile-grid-100 not-empty'>
-          <pre>    function simpleEvenOdd(order, i) {
-
-        return (i - order) % 2;
-
-    }
-
-
-</pre>
-        </div>
-      </div>
-      <div class='clear'>
-      </div>
-    
-      <div class='section'>
-        <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <p>detects support for next/previousElementSibling and returns next/previous siblings</p> <p>@param {String} direction next or previous</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function nextPrev(direction) {
+=======
+          <p>check if element is even or odd, based on its order</p> <p>@param {Number} order 0 or 1 - even or odd</p> <p>@param {Number} i</p> <p>@returns {Number} either 0 or something else not falsy</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function simpleEvenOdd(order, i) {
+        return (i - order) % 2;
+    }
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -101,6 +175,7 @@
     
       <div class='section'>
         <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <p>jshint validthis: true</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
@@ -124,6 +199,29 @@
 
     }
 </pre>
+=======
+          <p>detects support for next/previousElementSibling and returns next/previous siblings</p> <p>@param {String} direction next or previous</p> <p>@returns {$.Init}</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    var nextPrev = (function nextPrev() {
+        if (document.body.previousElementSibling) {
+            return function (direction) {
+                return updateOverFn.call(this, function (el) {
+                    return el[direction + 'ElementSibling'];
+                });
+            };
+        }
+
+        return function (direction) {
+            return updateOverFn.call(this, function (el) {
+                do { //ie
+                    el = el[direction + 'Sibling'];
+                } while (el && el.nodeType !== 1);
+                return el;
+            });
+        };
+    }());</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -134,8 +232,12 @@
           <p>returns function to find all next/previous siblings</p> <p>@param {String} direction next or previous</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>    function nextPrevAll(direction) {
 </pre>
+=======
+          <pre>    function nextPrevAll(direction) {</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -147,6 +249,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        return this._update(_.chain(this).map(function (el) {
+<<<<<<< HEAD
 
             var results = [],
 
@@ -173,6 +276,20 @@
         prevAll = _.partial(nextPrevAll, 'prev');
 
 
+=======
+            var results = [],
+                result;
+            while ((result = _.$(el)[direction]()) && (el = result[0])) {
+                results.push(result);
+            }
+            return results;
+        }).flatten().value());
+    }
+    var next = _.partial(nextPrev, 'next'),
+        prev = _.partial(nextPrev, 'previous'),
+        nextAll = _.partial(nextPrevAll, 'next'),
+        prevAll = _.partial(nextPrevAll, 'prev');
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -185,6 +302,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function callAsSelf(fn) {
+<<<<<<< HEAD
 
         return function () {
 
@@ -195,6 +313,12 @@
     }
 
 
+=======
+        return function () {
+            return fn.call(this);
+        };
+    }
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -206,10 +330,14 @@
           <p>get style value for given property of the given name (found on github)</p> <p>@param {HTMLElement} el</p> <p>@param {String} styleProp</p> <p>@returns {String}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>    function getStyle(el, styleProp) {
 
         var value, defaultView = el.ownerDocument.defaultView;
 </pre>
+=======
+          <pre>    var getStyle = (function () {</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -220,8 +348,13 @@
           <p>W3C standard way:</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        if (defaultView && defaultView.getComputedStyle) {
 </pre>
+=======
+          <pre>        if (window.getComputedStyle) {
+            return function getStyle(el, styleProp) {</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -232,12 +365,20 @@
           <p>sanitize property name to css notation (hyphen separated words eg. font-size)</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>            styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
 
             return defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
 
         } else if (el.currentStyle) { // IE
 </pre>
+=======
+          <pre>                styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
+                return getComputedStyle(el, null).getPropertyValue(styleProp);
+            };
+        } else { // IE
+            return function (el, styleProp) {</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -248,6 +389,7 @@
           <p>sanitize property name to camelCase</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>            styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
 
                 return letter.toUpperCase();
@@ -256,6 +398,12 @@
 
             value = el.currentStyle[styleProp];
 </pre>
+=======
+          <pre>                styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
+                    return letter.toUpperCase();
+                });
+                var value = el.currentStyle[styleProp];</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -266,6 +414,7 @@
           <p>convert other units to pixels on IE</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>            if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
 
                 return (function (value) {
@@ -295,6 +444,23 @@
     }
 
 
+=======
+          <pre>                if (/^\d+(em|pt|%|ex)?$/i.test(value)) {
+                    return (function (value) {
+                        var oldLeft = el.style.left, oldRsLeft = el.runtimeStyle.left;
+                        el.runtimeStyle.left = el.currentStyle.left;
+                        el.style.left = value || 0;
+                        value = el.style['pixelLeft'] + 'px';
+                        el.style.left = oldLeft;
+                        el.runtimeStyle.left = oldRsLeft;
+                        return value;
+                    })(value);
+                }
+                return value;
+            };
+        }
+    }());
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -307,6 +473,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function rulesToObj(cssText) {
+<<<<<<< HEAD
 
         if (!trim(cssText)) {
 
@@ -339,6 +506,23 @@
     }
 
 
+=======
+        if (!trim(cssText)) {
+            return {};
+        }
+        return _.chain(cssText.split(';'))
+            .map(function (rules) {
+                rules = rules.split(':');
+                return {
+                    prop: trim(rules[0]),
+                    value: trim(rules[1])
+                };
+            })
+            .indexBy('prop')
+            .mapValues('value')
+            .value();
+    }
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -351,6 +535,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function rulesFromObj(obj) {
+<<<<<<< HEAD
 
         return _.chain(obj)
 
@@ -365,6 +550,14 @@
     }
 
 
+=======
+        return _.chain(obj)
+            .pairs()
+            .invoke('join', ':')
+            .value()
+            .join(';');
+    }
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -377,12 +570,17 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function trim(str) {
+<<<<<<< HEAD
 
         return str.replace(/^\s+|\s+$/, '');
 
     }
 
 
+=======
+        return str.replace(/^\s+|\s+$/, '');
+    }
+>>>>>>> bf5f3e3... v1.0.4
 </pre>
         </div>
       </div>
@@ -406,11 +604,16 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    function $(selector, context) {
+<<<<<<< HEAD
 
         return new $.prototype.Init(selector, context);
 
     }
 </pre>
+=======
+        return new $.prototype.Init(selector, context);
+    }</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -418,6 +621,7 @@
     
       <div class='section'>
         <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <p>get elements by selector in a given context</p> <p>@constructor</p> <p>@name $.Init</p> <p>@param {String|HTMLElement} selector</p> <p>@param {HTMLElement} [context]</p> <p>@this {$.Init}</p> <p>@memberOf _.$.prototype</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
@@ -447,6 +651,24 @@
 
         constructor: $,
 </pre>
+=======
+          <p>get elements by selector in a given context</p> <p>@constructor</p> <p>@param {String|HTMLElement} selector</p> <p>@param {HTMLElement} [context]</p> <p>@memberOf _.$.prototype</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>    function Init(selector, context) {
+        this.length = 0;
+        if (typeof selector === 'string') {
+            context = context || document;
+            _.each(context.querySelectorAll(selector), _.bind(this._push, this));
+        } else {
+            this._push(selector);
+        }
+        return this;
+    }
+
+    $.prototype = {
+        constructor: $,</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -454,6 +676,7 @@
     
       <div class='section'>
         <div class='comment grid-40 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <p>@param {*} mixed</p> <p>@private</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
@@ -499,6 +722,32 @@
 
         Init: Init,
 </pre>
+=======
+          <p>@param {*} mixed</p> <p>@protected</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>        _push: function (mixed) {
+            if (mixed) {
+                [].push.call(this, mixed);
+            }
+        },
+        _clean: function () {
+            [].splice.call(this, 0, this.length);
+            if ('0' in this) { //ie8
+                for (var i in this) {
+                    if (this.hasOwnProperty(i)) {
+                        delete this[i];
+                    }
+                }
+            }
+        },
+        _update: function (updates) {
+            this._clean();
+            _.each(updates, _.bind(this._push, this));
+            return this;
+        },
+        Init: Init,</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -510,6 +759,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        find: function find(selector) {
+<<<<<<< HEAD
 
             return this._update(_.chain(this).map(function (element) {
 
@@ -519,6 +769,12 @@
 
         },
 </pre>
+=======
+            return this._update(_.chain(this).map(function (element) {
+                return _.chain(selector).$(element).toArray().value();
+            }).flatten().value());
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -530,6 +786,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        filter: function filter(selector) {
+<<<<<<< HEAD
 
             return this._update(_.filter(this, function (el, i) {
 
@@ -545,6 +802,15 @@
 
         },
 </pre>
+=======
+            return this._update(_.filter(this, function (el, i) {
+                if (_.isString(selector)) {
+                    return _.$(el).is(selector);
+                }
+                return _.bind(selector, el)(i);
+            }));
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -556,6 +822,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        siblings: function siblings() {
+<<<<<<< HEAD
 
             var results = _.chain(this).map(function (el) {
 
@@ -571,6 +838,15 @@
 
         },
 </pre>
+=======
+            var results = _.chain(this).map(function (el) {
+                return _.reject(el.parentNode.children, function (child) {
+                    return child === el;
+                });
+            }).flatten().uniq().value();
+            return this._update(results);
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -581,8 +857,12 @@
           <p>@type {Function}</p> <p>@memberOf _.$.prototype</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        next: callAsSelf(next),
 </pre>
+=======
+          <pre>        next: callAsSelf(next),</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -593,8 +873,12 @@
           <p>@type {Function}</p> <p>@memberOf _.$.prototype</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        prev: callAsSelf(prev),
 </pre>
+=======
+          <pre>        prev: callAsSelf(prev),</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -605,8 +889,12 @@
           <p>@type {Function}</p> <p>@memberOf _.$.prototype</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        nextAll: callAsSelf(nextAll),
 </pre>
+=======
+          <pre>        nextAll: callAsSelf(nextAll),</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -617,8 +905,12 @@
           <p>@type {Function}</p> <p>@memberOf _.$.prototype</p> <p>@returns {$.Init}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        prevAll: callAsSelf(prevAll),
 </pre>
+=======
+          <pre>        prevAll: callAsSelf(prevAll),</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -630,6 +922,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        text: function text(str) {
+<<<<<<< HEAD
 
             var getText = 'textContent' in this[0] ? 'textContent' : 'innerText';
 
@@ -651,6 +944,18 @@
 
         },
 </pre>
+=======
+            var getText = 'textContent' in this[0] ? 'textContent' : 'innerText';
+            return updateOverFn.call(this, function (el) {
+                if (str) {
+                    el[getText] = str;
+                    return el;
+                } else {
+                    return el[getText];
+                }
+            });
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -661,6 +966,7 @@
           <p>check if element(s) match the selector</p> <p>@param {String} selector</p> <p>@returns {Boolean}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>        is: function is(selector) {
 
             var f = this[0],
@@ -685,6 +991,40 @@
 
         },
 </pre>
+=======
+          <pre>        is: function is(selector) {</pre>
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+          <p>jshint -W052</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>            var f = this[0],
+                matches = f.matches || f.matchesSelector || f['msMatchesMatchesSelector'] || f['mozMatchesMatchesSelector'] || f['webkitMatchesSelector'] || f['oMatchesSelector'];
+
+            return _.every(this, function (el) {
+                if (matches) {
+                    return matches.call(el, selector);
+                } else {</pre>
+        </div>
+      </div>
+      <div class='clear'>
+      </div>
+    
+      <div class='section'>
+        <div class='comment grid-40 mobile-grid-100 not-empty'>
+          <p>jshint bitwise: false</p>
+        </div>
+        <div class='code grid-60 mobile-grid-100 not-empty'>
+          <pre>                    return ~_.chain(selector).$(el.parentNode).indexOf(el).value();
+                }
+            });
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -696,6 +1036,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        closest: function closest(selector) {
+<<<<<<< HEAD
 
             return this._update(_.chain(this).map(function (el) {
 
@@ -713,6 +1054,16 @@
 
         },
 </pre>
+=======
+            return updateOverFn.call(this, function (el) {
+                var parent;
+                while ((parent = el.parentNode) && !_.$(parent).is(selector)) {
+                    el = parent;
+                }
+                return parent;
+            });
+        },</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -724,6 +1075,7 @@
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>        css: function css(rules) {
+<<<<<<< HEAD
 
             if (_.isString(rules)) {
 
@@ -755,6 +1107,24 @@
 
     };
 </pre>
+=======
+            if (_.isString(rules)) {
+                return getStyle(this[0], rules);
+            }
+            _.each(this, function (el) {
+                el.style.cssText = rulesFromObj(
+                    _.merge(
+                        rulesToObj(el.style.cssText.replace(/;$/, '')),
+                        rules
+                    )
+                );
+            });
+
+            return this;
+        }
+    };
+    Init.prototype = $.prototype;</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -765,8 +1135,12 @@
           <p>helper function to filter even elements from collection based on elements location within its parent node</p> <p>@memberOf _.$</p> <p>@static</p> <p>@type {Function}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>    $.even = _.partial(evenOdd, 0);
 </pre>
+=======
+          <pre>    $.even = _.partial(evenOdd, 0);</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -777,8 +1151,12 @@
           <p>helper function to filter odd elements from collection based on elements location within its parent node</p> <p>@memberOf _.$</p> <p>@static</p> <p>@type {Function}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>    $.odd = _.partial(evenOdd, 1);
 </pre>
+=======
+          <pre>    $.odd = _.partial(evenOdd, 1);</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -789,8 +1167,12 @@
           <p>helper function to filter even elements from collection based on collection&#39;s order</p> <p>@memberOf _.$</p> <p>@static</p> <p>@type {Function}</p>
         </div>
         <div class='code grid-60 mobile-grid-100 not-empty'>
+<<<<<<< HEAD
           <pre>    $.simpleEven = _.partial(simpleEvenOdd, 0);
 </pre>
+=======
+          <pre>    $.simpleEven = _.partial(simpleEvenOdd, 0);</pre>
+>>>>>>> bf5f3e3... v1.0.4
         </div>
       </div>
       <div class='clear'>
@@ -803,6 +1185,7 @@
         <div class='code grid-60 mobile-grid-100 not-empty'>
           <pre>    $.simpleOdd = _.partial(simpleEvenOdd, 1);
 
+<<<<<<< HEAD
     Init.prototype = $.prototype;
 
 
@@ -813,6 +1196,11 @@
 
     });
 
+=======
+    _.mixin({
+        $: $
+    });
+>>>>>>> bf5f3e3... v1.0.4
 })();.</pre>
         </div>
       </div>
