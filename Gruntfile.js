@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         explainjs: {
             dist: {
                 options: {
-                    showFilename: true // default is false
+                    showFilename: false // default is false
                 },
                 files: [{
                     src: ['./lodash.dom-traverse.js'],
