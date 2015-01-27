@@ -1,6 +1,8 @@
 lodash.dom-traverse
 ==============
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/szarouski/lodash.dom-traverse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 tiny (1.28kb min, gzip) lodash extension for dom traversing (for those cases where native dom is not so easy to use):
 
 ```javascript
